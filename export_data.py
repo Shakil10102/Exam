@@ -1,0 +1,230 @@
+import json
+
+courses = [
+    # Trimester 1
+    {"tri": 1, "code": "ENG 1011", "title": "English I", "cr": 3, "pre": "None", "day": "Day 1", "slot": "T1", "category": "Core", "alt": "ENG 101"},
+    {"tri": 1, "code": "BDS 1201", "title": "History of the Emergence of Bangladesh", "cr": 2, "pre": "None", "day": "Day 6", "slot": "T1", "category": "Core"},
+    {"tri": 1, "code": "CSE 1110", "title": "Introduction to Computer Systems", "cr": 1, "pre": "None", "day": "N/A", "slot": "N/A", "category": "Core"},
+    {"tri": 1, "code": "MATH 1151", "title": "Fundamental Calculus", "cr": 3, "pre": "None", "day": "Day 2", "slot": "T2", "category": "Core", "alt": "MATH 151"},
+
+    # Trimester 2
+    {"tri": 2, "code": "ENG 1013", "title": "English II", "cr": 3, "pre": "ENG 1011", "day": "Day 1", "slot": "T2", "category": "Core", "alt": "ENG 103"},
+    {"tri": 2, "code": "CSE 1111", "title": "Structured Programming Language", "cr": 3, "pre": "CSE 1110", "day": "Day 4", "slot": "T2", "category": "Core", "alt": "CSI 121"},
+    {"tri": 2, "code": "CSE 1112", "title": "Structured Programming Language Laboratory", "cr": 1, "pre": "CSE 1110", "day": "N/A", "slot": "N/A", "category": "Core", "alt": "CSI 122"},
+    {"tri": 2, "code": "CSE 2213", "title": "Discrete Mathematics", "cr": 3, "pre": "None", "day": "Day 3", "slot": "T2", "category": "Core", "alt": "CSI 219"},
+
+    # Trimester 3
+    {"tri": 3, "code": "MATH 2183", "title": "Calculus and Linear Algebra", "cr": 3, "pre": "MATH 1151", "day": "Day 1", "slot": "T3", "category": "Core", "alt": "MATH 183"},
+    {"tri": 3, "code": "PHY 2105", "title": "Physics", "cr": 3, "pre": "None", "day": "Day 7", "slot": "T3", "category": "Core", "alt": "PHY 105"},
+    {"tri": 3, "code": "PHY 2106", "title": "Physics Lab", "cr": 1, "pre": "None", "day": "N/A", "slot": "N/A", "category": "Core"},
+    {"tri": 3, "code": "CSE 2215", "title": "Data Structure and Algorithms I", "cr": 3, "pre": "CSE 1111", "day": "Day 4", "slot": "T2", "category": "Core", "alt": "CSI 217"},
+    {"tri": 3, "code": "CSE 2216", "title": "Data Structure and Algorithms I Laboratory", "cr": 1, "pre": "CSE 1112", "day": "N/A", "slot": "N/A", "category": "Core", "alt": "CSI 218"},
+
+    # Trimester 4
+    {"tri": 4, "code": "MATH 2201", "title": "Coordinate Geometry and Vector Analysis", "cr": 3, "pre": "MATH 1151", "day": "Day 5", "slot": "T1", "category": "Core", "alt": "MATH 201"},
+    {"tri": 4, "code": "CSE 1325", "title": "Digital Logic Design", "cr": 3, "pre": "None", "day": "Day 3", "slot": "T3", "category": "Core", "alt": "CSE 225"},
+    {"tri": 4, "code": "CSE 1326", "title": "Digital Logic Design Lab", "cr": 1, "pre": "None", "day": "N/A", "slot": "N/A", "category": "Core"},
+    {"tri": 4, "code": "CSE 1115", "title": "Object Oriented Programming", "cr": 3, "pre": "CSE 2215", "day": "Day 6", "slot": "T2", "category": "Core", "alt": "CSI 211"},
+    {"tri": 4, "code": "CSE 1116", "title": "Object Oriented Programming Lab", "cr": 1, "pre": "CSE 2216", "day": "N/A", "slot": "N/A", "category": "Core", "alt": "CSI 212"},
+
+    # Trimester 5
+    {"tri": 5, "code": "MATH 2205", "title": "Probability and Statistics", "cr": 3, "pre": "MATH 1151", "day": "Day 2", "slot": "T3", "category": "Core", "alt": "STAT 205"},
+    {"tri": 5, "code": "SOC 2101", "title": "Society, Technology and Engineering Ethics", "cr": 3, "pre": "None", "day": "Day 1", "slot": "T3", "category": "Core", "alt": "SOC 101"},
+    {"tri": 5, "code": "CSE 2217", "title": "Data Structure and Algorithms II", "cr": 3, "pre": "CSE 2215", "day": "Day 5", "slot": "T2", "category": "Core", "alt": "CSI 227"},
+    {"tri": 5, "code": "CSE 2218", "title": "Data Structure and Algorithms II Laboratory", "cr": 1, "pre": "CSE 2216", "day": "N/A", "slot": "N/A", "category": "Core"},
+    {"tri": 5, "code": "EEE 2113", "title": "Electrical Circuits", "cr": 3, "pre": "None", "day": "Day 6", "slot": "T3", "category": "Core", "alt": "CSE 113"},
+
+    # Trimester 6
+    {"tri": 6, "code": "CSE 3521", "title": "Database Management Systems", "cr": 3, "pre": "CSE 2215", "day": "Day 2", "slot": "T1", "category": "Core", "alt": "CSI 221"},
+    {"tri": 6, "code": "CSE 3522", "title": "Database Management Systems Lab", "cr": 1, "pre": "CSE 2216", "day": "N/A", "slot": "N/A", "category": "Core"},
+    {"tri": 6, "code": "EEE 2123", "title": "Electronics", "cr": 3, "pre": "EEE 2113", "day": "Day 6", "slot": "T3", "category": "Core", "alt": "CSE 123"},
+    {"tri": 6, "code": "EEE 2124", "title": "Electronics Lab", "cr": 1, "pre": "None", "day": "N/A", "slot": "N/A", "category": "Core"},
+    {"tri": 6, "code": "CSE 4165", "title": "Web Programming", "cr": 3, "pre": "CSE 1115, CSE 1116", "day": "Day 7", "slot": "T1", "category": "Core", "alt": "CSE 465"},
+
+    # Trimester 7
+    {"tri": 7, "code": "CSE 3313", "title": "Computer Architecture", "cr": 3, "pre": "CSE 1325", "day": "Day 1", "slot": "T3", "category": "Core", "alt": "CSE 313"},
+    {"tri": 7, "code": "CSE 2118", "title": "Advanced Object Oriented Programming Lab", "cr": 1, "pre": "CSE 1116", "day": "N/A", "slot": "N/A", "category": "Core"},
+    {"tri": 7, "code": "BIO 3105", "title": "Biology for Engineers", "cr": 3, "pre": "None", "day": "Day 3", "slot": "T3", "category": "Core"},
+    {"tri": 7, "code": "CSE 3411", "title": "System Analysis and Design", "cr": 3, "pre": "CSE 3521", "day": "Day 5", "slot": "T1", "category": "Core", "alt": "CSI 311"},
+    {"tri": 7, "code": "CSE 3412", "title": "System Analysis and Design Lab", "cr": 1, "pre": "CSE 3522", "day": "N/A", "slot": "N/A", "category": "Core"},
+
+    # Trimester 8
+    {"tri": 8, "code": "CSE 4325", "title": "Microprocessors and Microcontrollers", "cr": 3, "pre": "CSE 3313", "day": "Day 2", "slot": "T2", "category": "Core", "alt": "CSE 425"},
+    {"tri": 8, "code": "CSE 4326", "title": "Microprocessors and Microcontrollers Lab", "cr": 1, "pre": "EEE 2124", "day": "N/A", "slot": "N/A", "category": "Core"},
+    {"tri": 8, "code": "CSE 3421", "title": "Software Engineering", "cr": 3, "pre": "CSE 3411", "day": "Day 5", "slot": "T3", "category": "Core", "alt": "CSI 321"},
+    {"tri": 8, "code": "CSE 3422", "title": "Software Engineering Lab", "cr": 1, "pre": "CSE 3412", "day": "N/A", "slot": "N/A", "category": "Core"},
+    {"tri": 8, "code": "CSE 3811", "title": "Artificial Intelligence", "cr": 3, "pre": "MATH 2205, CSE 2217", "day": "Day 3", "slot": "T1", "category": "Core", "alt": "CSI 341"},
+    {"tri": 8, "code": "CSE 3812", "title": "Artificial Intelligence Lab", "cr": 1, "pre": "MATH 2205, CSE 2218", "day": "N/A", "slot": "N/A", "category": "Core"},
+
+    # Trimester 9
+    {"tri": 9, "code": "CSE 2233", "title": "Theory of Computation", "cr": 3, "pre": "None", "day": "Day 7", "slot": "T2", "category": "Core", "alt": "CSI 233"},
+    {"tri": 9, "code": "PMG 4101", "title": "Project Management", "cr": 3, "pre": "CSE 3411", "day": "Day 3", "slot": "T2", "category": "Core", "alt": "CSE 469"},
+    {"tri": 9, "code": "CSE 3711", "title": "Computer Networks", "cr": 3, "pre": "CSE 2217", "day": "Day 4", "slot": "T3", "category": "Core", "alt": "CSE 323"},
+    {"tri": 9, "code": "CSE 3712", "title": "Computer Networks Lab", "cr": 1, "pre": "None", "day": "N/A", "slot": "N/A", "category": "Core"},
+
+    # Trimester 10
+    {"tri": 10, "code": "CSE 4000 A", "title": "Final Year Design Project - I", "cr": 2, "pre": "Minimum 85 credits completed", "day": "N/A", "slot": "N/A", "category": "Capstone"},
+    {"tri": 10, "code": "CSE 4509", "title": "Operating Systems", "cr": 3, "pre": "CSE 2217, CSE 3313", "day": "Day 1", "slot": "T1", "category": "Core", "alt": "CSI 309"},
+    {"tri": 10, "code": "CSE 4510", "title": "Operating Systems Laboratory", "cr": 1, "pre": "CSE 2218", "day": "N/A", "slot": "N/A", "category": "Core"},
+
+    # Trimester 11
+    {"tri": 11, "code": "CSE 4000 B", "title": "Final Year Design Project - II", "cr": 2, "pre": "CSE 4000 A", "day": "N/A", "slot": "N/A", "category": "Capstone"},
+    {"tri": 11, "code": "CSE 4531", "title": "Computer Security", "cr": 3, "pre": "CSE 3711, CSE 4509", "day": "Day 6", "slot": "T3", "category": "Core", "note": "Only Final Exam"},
+
+    # Trimester 12
+    {"tri": 12, "code": "CSE 4000 C", "title": "Final Year Design Project - III", "cr": 2, "pre": "CSE 4000 A & CSE 4000 B", "day": "N/A", "slot": "N/A", "category": "Capstone"},
+    {"tri": 12, "code": "EEE 4261", "title": "Green Computing", "cr": 3, "pre": "None", "day": "Day 5", "slot": "T1", "category": "Core", "note": "Only Final Exam"},
+
+    # General Education Optionals (Trimester 9, 10, 11)
+    {"tri": "GED", "code": "GED 1005", "title": "AI Literacy and Prompt Engineering", "cr": 3, "pre": "None", "day": "Day 1", "slot": "T1", "category": "GED Optional", "note": "Dept Recommended"},
+    {"tri": "GED", "code": "ECO 4101", "title": "Economics", "cr": 3, "pre": "None", "day": "Day 6", "slot": "T1", "category": "GED Optional", "alt": "ECO 213"},
+    {"tri": "GED", "code": "ACT 2111", "title": "Financial and Managerial Accounting", "cr": 3, "pre": "None", "day": "Day 2", "slot": "T3", "category": "GED Optional", "alt": "ACT 111"},
+    {"tri": "GED", "code": "TEC 2499", "title": "Technology Entrepreneurship", "cr": 3, "pre": "None", "day": "Day 3", "slot": "T2", "category": "GED Optional", "note": "Only Final Exam"},
+
+    # Electives - Network and Cyber Security
+    {"tri": "Elective", "code": "CSE 4125", "title": "Ethical Hacking and Network Defense", "cr": 3, "pre": "CSE 4531", "day": "Day 1", "slot": "T3", "category": "Elective", "major": "Network & Cyber Security"},
+    {"tri": "Elective", "code": "CSE 4777", "title": "Network Security", "cr": 3, "pre": "CSE 4531", "day": "Day 3", "slot": "T3", "category": "Elective", "major": "Network & Cyber Security"},
+
+    # Electives - Software Engineering
+    {"tri": "Elective", "code": "CSE 4587", "title": "Cloud Computing", "cr": 3, "pre": "CSE 4509, CSE 3711", "day": "Day 5", "slot": "T3", "category": "Elective", "major": "Software Engineering", "note": "Only Final Exam"},
+    {"tri": "Elective", "code": "CSE 4611", "title": "Compiler Design", "cr": 3, "pre": "CSE 2233", "day": "Day 4", "slot": "T1", "category": "Elective", "major": "Software Engineering", "alt": "CSI 411"},
+    {"tri": "Elective", "code": "CSE 4621", "title": "Computer Graphics", "cr": 3, "pre": "MATH 2201, MATH 2183", "day": "Day 2", "slot": "T1", "category": "Elective", "major": "Software Engineering", "alt": "CSI 421"},
+    {"tri": "Elective", "code": "CSE 4451", "title": "Human Computer Interaction", "cr": 3, "pre": "Minimum Completed Credit 70", "day": "Day 3", "slot": "T1", "category": "Elective", "major": "Software Engineering", "note": "Only Final Exam", "alt": "CSE 451"},
+    {"tri": "Elective", "code": "CSE 4435", "title": "Software Architecture", "cr": 3, "pre": "None", "day": "Day 4", "slot": "T2", "category": "Elective", "major": "Software Engineering"},
+    {"tri": "Elective", "code": "CSE 4181", "title": "Mobile Application Development", "cr": 3, "pre": "CSE 4165", "day": "Day 6", "slot": "T3", "category": "Elective", "major": "Software Engineering", "note": "Only Final Exam", "alt": "CSE 481"},
+    {"tri": "Elective", "code": "CSE 4945", "title": "UI: Concepts and Design", "cr": 3, "pre": "None", "day": "Day 1", "slot": "T2", "category": "Elective", "major": "Software Engineering", "note": "Only Final Exam"},
+    {"tri": "Elective", "code": "CSE 4495", "title": "Software Testing and Quality Assurance", "cr": 3, "pre": "CSE 3421", "day": "Day 7", "slot": "T3", "category": "Elective", "major": "Software Engineering", "note": "Only Final Exam", "alt": "CSE 495"},
+
+    # Electives - Embedded System and Robotics / Hardware
+    {"tri": "Elective", "code": "CSE 4327", "title": "VLSI Design", "cr": 3, "pre": "CSE 4325", "day": "Day 4", "slot": "T1", "category": "Elective", "major": "Embedded & Robotics"},
+    {"tri": "Elective", "code": "CSE 4399", "title": "Embedded Machine Learning (Special Topics)", "cr": 3, "pre": "CSE 1111, CSE 4325", "day": "Day 7", "slot": "T2", "category": "Elective", "major": "Embedded & Robotics"},
+
+    # Electives - AI and Data Science
+    {"tri": "Elective", "code": "CSE 4889", "title": "Machine Learning", "cr": 3, "pre": "CSE 3811, CSE 3812, MATH 2183", "day": "Day 1", "slot": "T3", "category": "Elective", "major": "AI & Data Science", "alt": "489"},
+    {"tri": "Elective", "code": "CSE 4891", "title": "Data Mining", "cr": 3, "pre": "CSE 4889", "day": "Day 7", "slot": "T1", "category": "Elective", "major": "AI & Data Science"},
+    {"tri": "Elective", "code": "CSE 4817", "title": "Big Data Analytics", "cr": 3, "pre": "CSE 4889", "day": "Day 5", "slot": "T3", "category": "Elective", "major": "AI & Data Science"},
+    {"tri": "Elective", "code": "CSE 4883", "title": "Digital Image Processing", "cr": 3, "pre": "CSE 4889", "day": "Day 4", "slot": "T1", "category": "Elective", "major": "AI & Data Science", "alt": "CSI 483"},
+    {"tri": "Elective", "code": "CSE 4811", "title": "Natural Language Processing", "cr": 3, "pre": "CSE 4889", "day": "Day 4", "slot": "T1", "category": "Elective", "major": "AI & Data Science"},
+    {"tri": "Elective", "code": "CSE 4813", "title": "Deep Learning", "cr": 3, "pre": "CSE 4889", "day": "Day 1", "slot": "T3", "category": "Elective", "major": "AI & Data Science"},
+    {"tri": "Elective", "code": "CSE 4893", "title": "Introduction to Bioinformatics", "cr": 3, "pre": "CSE 4889", "day": "Day 4", "slot": "T3", "category": "Elective", "major": "AI & Data Science", "note": "Only Final Exam", "alt": "CSE 493"},
+
+    # Electives - Business System Engineering
+    {"tri": "Elective", "code": "CSE 4133", "title": "Business Intelligence", "cr": 3, "pre": "CSE 3411", "day": "Day 6", "slot": "T3", "category": "Elective", "major": "Business System Engineering"},
+
+    # BSDS Specialized Courses from Routine
+    {"tri": "BSDS", "code": "DS 1101", "title": "Data Science Fundamentals", "cr": 3, "pre": "None", "day": "Day 5", "slot": "T2", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 1115", "title": "Data Science Object Oriented Programming", "cr": 3, "pre": "None", "day": "Day 6", "slot": "T2", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 1501", "title": "Exploratory Data Analysis", "cr": 3, "pre": "None", "day": "Day 4", "slot": "T2", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 2251", "title": "Data Mining Techniques", "cr": 3, "pre": "None", "day": "Day 4", "slot": "T2", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 3101", "title": "Database Management for Data Science", "cr": 3, "pre": "None", "day": "Day 4", "slot": "T3", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 3120", "title": "Statistical Modeling for Data Science", "cr": 3, "pre": "None", "day": "Day 5", "slot": "T3", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 3521", "title": "Big Data Infrastructure", "cr": 3, "pre": "None", "day": "Day 6", "slot": "T1", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 3881", "title": "Data Visualization & Storytelling", "cr": 3, "pre": "None", "day": "Day 7", "slot": "T3", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 3885", "title": "Applied Data Science", "cr": 3, "pre": "None", "day": "Day 1", "slot": "T2", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 4115", "title": "Business Analytics", "cr": 3, "pre": "None", "day": "Day 7", "slot": "T1", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 4123", "title": "Data Ethics and Governance", "cr": 3, "pre": "None", "day": "Day 3", "slot": "T1", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 4211", "title": "Predictive Analytics", "cr": 3, "pre": "None", "day": "Day 1", "slot": "T3", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 4217", "title": "Time Series Analysis", "cr": 3, "pre": "None", "day": "Day 1", "slot": "T2", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 4229", "title": "Advanced Machine Learning", "cr": 3, "pre": "None", "day": "Day 7", "slot": "T2", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 4491", "title": "Cloud for Data Science", "cr": 3, "pre": "None", "day": "Day 1", "slot": "T1", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 4511", "title": "Optimization Methods", "cr": 3, "pre": "None", "day": "Day 5", "slot": "T1", "category": "BSDS Core"},
+    {"tri": "BSDS", "code": "DS 4523", "title": "Deep Learning for Data Science", "cr": 3, "pre": "None", "day": "Day 4", "slot": "T3", "category": "BSDS Core"}
+]
+
+# Advisors dataset
+advisors_cse = [
+    {"batch": "Batch 262", "ranges": [[112620001, 112620154]], "name": "Azizur Rahman Anik", "cell": "8801954843608", "email": "azizur@cse.uiu.ac.bd", "office": "836 (B)"},
+    {"batch": "Batch 262", "ranges": [[112620155, 112620307]], "name": "S.M. Kausar Parvej", "cell": "+8801748669367", "email": "kausar@cse.uiu.ac.bd", "office": "919 (A)"},
+    {"batch": "Batch 262", "ranges": [[112620308, 112620460]], "name": "Tasriad Ahmed Tias", "cell": "+8801842686804", "email": "tasriad@cse.uiu.ac.bd", "office": "919 (D)"},
+    {"batch": "Batch 262", "ranges": [[112620461, 112620613]], "name": "Sudipto Mondal", "cell": "+8801735493331", "email": "sudiptomondal@cse.uiu.ac.bd", "office": "636 (C)"},
+    {"batch": "Batch 262", "ranges": [[112620614, 112620766]], "name": "Amit Bin Tariqul", "cell": "+8801811510899", "email": "amit@cse.uiu.ac.bd", "office": "8th Floor Faculty Room"},
+    {"batch": "Batch 261", "ranges": [[112610001, 112610115]], "name": "Samin Sharaf Somik", "cell": "8801580117550", "email": "samin@cse.uiu.ac.bd", "office": "419 (D)"},
+    {"batch": "Batch 261", "ranges": [[112610116, 112610230]], "name": "Zaara Zabeen Arpa", "cell": "+8801624093328", "email": "zaara@cse.uiu.ac.bd", "office": "719 (C)"},
+    {"batch": "Batch 261 & 253", "ranges": [[112610231, 112610250], [112530001, 112530096]], "name": "Md. Shafqat Talukder", "cell": "8801926749123", "email": "shafqat@cse.uiu.ac.bd", "office": "219 (A)"},
+    {"batch": "Batch 253 & 252", "ranges": [[112530097, 112530200], [112520001, 112520013]], "name": "Charles Aunkan Gomes", "cell": "8801770347232", "email": "charles@cse.uiu.ac.bd", "office": "419 (C)"},
+    {"batch": "Batch 252", "ranges": [[112520014, 112520132]], "name": "Kazi Abdun Noor", "cell": "8801867384434", "email": "abdunnoor@cse.uiu.ac.bd", "office": "336 (A)"},
+    {"batch": "Batch 252", "ranges": [[112520133, 112520250]], "name": "Nabila Sabrin Sworna", "cell": "8801911644209", "email": "nabila@cse.uiu.ac.bd", "office": "419 (B)"},
+    {"batch": "Batch 252 & 251", "ranges": [[112520251, 112520328], [112510001, 112510042]], "name": "Mr. Sheikh Mohammed Al Hadi Elaf", "cell": "+8801707564128", "email": "hadielaf@cse.uiu.ac.bd", "office": "824 (D)"},
+    {"batch": "Batch 251", "ranges": [[112510043, 112510167]], "name": "Md. Muhyminul Haque", "cell": "8801789926815", "email": "muhyminul@cse.uiu.ac.bd", "office": "419 (D)"},
+    {"batch": "Batch 251", "ranges": [[112510168, 112510292]], "name": "Md. Romizul Islam", "cell": "8801798238205", "email": "romizul@cse.uiu.ac.bd", "office": "419 (A)"},
+    {"batch": "Batch 251 & 243", "ranges": [[112510293, 112510414], [112430001, 112430003]], "name": "Umama Rahman", "cell": "8801799358591", "email": "umama@cse.uiu.ac.bd", "office": "819"},
+    {"batch": "Batch 243", "ranges": [[112430004, 112430137]], "name": "Asif Ahmed Utsa", "cell": "8801700545293", "email": "asif@cse.uiu.ac.bd", "office": "419 (A)"},
+    {"batch": "Batch 243", "ranges": [[112430138, 112430271]], "name": "Md. Tanvir Raihan", "cell": "8801643171903", "email": "tanvir@cse.uiu.ac.bd", "office": "419 (C)"},
+    {"batch": "Batch 243", "ranges": [[112430272, 112430405]], "name": "Sidratul Muntaha", "cell": "8801742256703", "email": "sidratul@cse.uiu.ac.bd", "office": "819"},
+    {"batch": "Batch 243", "ranges": [[112430406, 112430539]], "name": "Taki Yashir", "cell": "8801521555488", "email": "taki@cse.uiu.ac.bd", "office": "336 (D)"},
+    {"batch": "Batch 243", "ranges": [[112430540, 112430672]], "name": "Md. Abid Hossain", "cell": "8801796992356", "email": "abid@cse.uiu.ac.bd", "office": "619"},
+    {"batch": "Batch 243 & 242", "ranges": [[112430673, 112430748], [112420001, 112420065]], "name": "Asnuva Tanvin", "cell": "8801767981070", "email": "tanvin@cse.uiu.ac.bd", "office": "819"},
+    {"batch": "Batch 242", "ranges": [[112420066, 112420216]], "name": "Md. Siam", "cell": "+8801796092925", "email": "siam@cse.uiu.ac.bd", "office": "824 (B)"},
+    {"batch": "Batch 242", "ranges": [[112420217, 112420366]], "name": "Tasmin Sanjida", "cell": "8801627998299", "email": "sanjida@cse.uiu.ac.bd", "office": "419 (B)"},
+    {"batch": "Batch 242", "ranges": [[112420367, 112420517]], "name": "Kazi Fahim Tahmid", "cell": "+8801980860096", "email": "fahimtahmid@cse.uiu.ac.bd", "office": "819 (D)"},
+    {"batch": "Batch 242", "ranges": [[112420518, 112420667]], "name": "Nahin F. Siddiqui", "cell": "+8801924509192", "email": "nahin@cse.uiu.ac.bd", "office": "636 (D)"},
+    {"batch": "Batch 242 & 241", "ranges": [[112420668, 112420734], [112410001, 112410085]], "name": "Md. Mushfiqul Haque Omi", "cell": "8801759203694", "email": "mushfiqul@cse.uiu.ac.bd", "office": "837 (A)"},
+    {"batch": "Batch 241", "ranges": [[112410086, 112410239]], "name": "Tanmoy Bipro Das", "cell": "8801680332098", "email": "tanmoy@cse.uiu.ac.bd", "office": "836 (A)"},
+    {"batch": "Batch 241", "ranges": [[112410240, 112410392]], "name": "Humaira Anzum Neha", "cell": "8801720064836", "email": "humaira@cse.uiu.ac.bd", "office": "837 (B)"},
+    {"batch": "Batch 241", "ranges": [[112410393, 112410549]], "name": "M. Fahmin Rahman", "cell": "8801704557290", "email": "fahmin@cse.uiu.ac.bd", "office": "837 (C)"},
+    {"batch": "Batch 233", "ranges": [[112330001, 112330149]], "name": "Shihab Ahmed", "cell": "8801682233149", "email": "shihab@cse.uiu.ac.bd", "office": "319 (A)"},
+    {"batch": "Batch 233", "ranges": [[112330150, 112330298]], "name": "Sidratul Tanzila Tasmi", "cell": "8801735944394", "email": "tanzila@cse.uiu.ac.bd", "office": "319 (D)"},
+    {"batch": "Batch 233", "ranges": [[112330299, 112330446]], "name": "Sherajul Arifin", "cell": "8801747504514", "email": "sherajul@cse.uiu.ac.bd", "office": "319 (C)"},
+    {"batch": "Batch 233", "ranges": [[112330447, 112330595]], "name": "Mobaswirul Islam", "cell": "8801886313963", "email": "mobaswirul@cse.uiu.ac.bd", "office": "336 (D)"},
+    {"batch": "Batch 233", "ranges": [[112330596, 112330744]], "name": "Abdullah Ibne Masud Mahi", "cell": "8801842939194", "email": "ibnemasud@cse.uiu.ac.bd", "office": "919 (B)"},
+    {"batch": "Batch 233", "ranges": [[112330745, 112330893]], "name": "Mahmudul Hasan", "cell": "8801914259744", "email": "mahmudul@cse.uiu.ac.bd", "office": "836 (A)"},
+    {"batch": "Batch 233", "ranges": [[112330894, 112331042]], "name": "Muhammad Anwarul Azim", "cell": "8801967091405", "email": "anwarul@cse.uiu.ac.bd", "office": "619 (D)"},
+    {"batch": "Batch 233 & 232", "ranges": [[112331043, 112331173], [112320001, 112320023]], "name": "Sajid Ahmed Chowdhury", "cell": "8801760514780", "email": "sajidahmed@cse.uiu.ac.bd", "office": "319 (B)"},
+    {"batch": "Batch 232", "ranges": [[112320024, 112320200]], "name": "Syed Samin Sadaf", "cell": "+8801302869890", "email": "sadaf@cse.uiu.ac.bd", "office": "536 (D)"},
+    {"batch": "Batch 232 & 231", "ranges": [[112320201, 112320297], [112310001, 112310079]], "name": "Saqif Kaisar", "cell": "+8801726185847", "email": "saqif@cse.uiu.ac.bd", "office": "219 (B)"},
+    {"batch": "Batch 231", "ranges": [[112310080, 112310254]], "name": "Rakibul Hasan Rafi", "cell": "8801737659967", "email": "rakibulhasan@cse.uiu.ac.bd", "office": "819"},
+    {"batch": "Batch 231", "ranges": [[112310255, 112310428]], "name": "Md. Muhaiminul Islam Nafi", "cell": "8801704953445", "email": "muhaiminul@cse.uiu.ac.bd", "office": "819"},
+    {"batch": "Batch 231", "ranges": [[112310429, 112310603]], "name": "Imran Hossain", "cell": "8801892555265", "email": "imran@cse.uiu.ac.bd", "office": "822 (A)"},
+    {"batch": "Batch 231 & 223", "ranges": [[112310604, 112310609], [112230001, 112230160]], "name": "Fairoz Anika", "cell": "8801733197087", "email": "fairoz@cse.uiu.ac.bd", "office": "823"},
+    {"batch": "Batch 223", "ranges": [[112230161, 112230325]], "name": "Didarul Islam Didar", "cell": "8801828747064", "email": "didarul@cse.uiu.ac.bd", "office": "822"},
+    {"batch": "Batch 223", "ranges": [[112230326, 112230490]], "name": "Tasmia Binte Sogir", "cell": "8801911510859", "email": "tasmia@cse.uiu.ac.bd", "office": "822"},
+    {"batch": "Batch 223", "ranges": [[112230491, 112230655]], "name": "Syed Abu Ammar Muhammad Zarif", "cell": "+8801731267236", "email": "zarif@cse.uiu.ac.bd", "office": "219 (B)"},
+    {"batch": "Batch 223", "ranges": [[112230656, 112230820]], "name": "Pranta Biswas", "cell": "8801879903188", "email": "pranta@cse.uiu.ac.bd", "office": "636 (A)"},
+    {"batch": "Batch 223", "ranges": [[112230821, 112230985]], "name": "Rizvan Jawad Ruhan", "cell": "8801830618640", "email": "rizvan@cse.uiu.ac.bd", "office": "837 (D)"},
+    {"batch": "Batch 223 & 222", "ranges": [[112230986, 112231077], [112220001, 112220084]], "name": "Anindya Hoque", "cell": "+8801991947827", "email": "anindya@cse.uiu.ac.bd", "office": "636 (D)"},
+    {"batch": "Batch 222", "ranges": [[112220085, 112220273]], "name": "Arnab Bhattacharjee", "cell": "8801879038263", "email": "arnab@cse.uiu.ac.bd", "office": "824"},
+    {"batch": "Batch 222 & 221", "ranges": [[112220274, 112220366], [112211001, 112211091]], "name": "Rafid Nahiyan Farabi", "cell": "8801857369988", "email": "rafid@cse.uiu.ac.bd", "office": "824"},
+    {"batch": "Batch 221", "ranges": [[112211092, 112211267]], "name": "Shahriar Mahmud", "cell": "8801886360871", "email": "shahriarmahmud@cse.uiu.ac.bd", "office": "824"},
+    {"batch": "Batch 221", "ranges": [[112211268, 112211442]], "name": "Nusaiba Zaman Manifa", "cell": "8801622545050", "email": "manifa@cse.uiu.ac.bd", "office": "822"},
+    {"batch": "Batch 221 & 213", "ranges": [[112211443, 112211610], [11213001, 11213008]], "name": "Sayem Shahad", "cell": "8801741355352", "email": "sayem@cse.uiu.ac.bd", "office": "824"},
+    {"batch": "Batch 213", "ranges": [[11213009, 11213193]], "name": "Hafijul Hoque Chowdhury", "cell": "8801760830558", "email": "hafijul@cse.uiu.ac.bd", "office": "823 (A)"},
+    {"batch": "Batch 213, 212 & 211", "ranges": [[11213194, 11213212], [11212001, 11212169], [11211001, 11211024]], "name": "Md. Zunaid-Ul-Alam", "cell": "8801798080786", "email": "zunaid@cse.uiu.ac.bd", "office": "823"},
+    {"batch": "Batch 211, 203 & 202", "ranges": [[11211025, 11211138], [11203001, 11203072], [11202001, 11202136]], "name": "Md. Sajjad Hossain", "cell": "8801521526826", "email": "sajjad@cse.uiu.ac.bd", "office": "823"},
+    {"batch": "Batch 202 & 201", "ranges": [[11202137, 11202339], [11201001, 11201327]], "name": "Abrar Mahmud", "cell": "8801754866766", "email": "abrar@cse.uiu.ac.bd", "office": "823 (A)"},
+    {"batch": "Batch 201, 193, 192 & 191", "ranges": [[11201328, 11201472], [11193001, 11193157], [11192001, 11192153], [11191001, 11191197]], "name": "Asif Abrar", "cell": "8801552375341", "email": "asifabrar@cse.uiu.ac.bd", "office": "823"},
+    {"batch": "Batch 191 to 123", "ranges": [[11191198, 11191277], [11123000, 11191000]], "name": "Farhan Anan Himu", "cell": "8801794397694", "email": "himu@cse.uiu.ac.bd", "office": "536"}
+]
+
+advisors_ds = [
+    {"batch": "Batch 262", "ranges": [[152620001, 152620146]], "name": "Minhajul Bashir", "cell": "8801912736131", "email": "minhajul@cse.uiu.ac.bd", "office": "319 (B)"},
+    {"batch": "Batch 261, 253 & 252", "ranges": [[152610001, 152610041], [152530001, 152530042], [152520001, 152520037]], "name": "Md. Mehedi Hasan", "cell": "+8801623090826", "email": "mehedi@cse.uiu.ac.bd", "office": "619 (D)"},
+    {"batch": "Batch 252, 251 & 243", "ranges": [[152520038, 152520082], [152510001, 152510069], [152430001, 152430009]], "name": "Md. Taky Shaharair", "cell": "+8801309399547", "email": "taky@cse.uiu.ac.bd", "office": "719 (A)"},
+    {"batch": "Batch 243, 242 & 241", "ranges": [[152430010, 152430109], [152420001, 152420030], [152410001, 152410007]], "name": "Ashraful Islam Paran", "cell": "+8801521561806", "email": "paran@cse.uiu.ac.bd", "office": "319 (A)"},
+    {"batch": "Batch 241 & 233", "ranges": [[152410008, 152410074], [152330001, 152330085]], "name": "Tahmid Mosaddeque", "cell": "8801726532454", "email": "mosaddeque@cse.uiu.ac.bd", "office": "719 (D)"},
+    {"batch": "Batch 233 to 221", "ranges": [[152330086, 152330165], [152210001, 152330000]], "name": "Siana Rizwan", "cell": "8801725482054", "email": "siana@cse.uiu.ac.bd", "office": "823"}
+]
+
+data_bundle = {
+    "courses": courses,
+    "advisors": {
+        "BSCSE": advisors_cse,
+        "BSDS": advisors_ds
+    },
+    "examTimings": {
+        "MID": {
+            "T1": "09:00 AM – 11:00 AM",
+            "T2": "11:30 AM – 01:30 PM",
+            "T3": "02:00 PM – 04:00 PM"
+        },
+        "FINAL": {
+            "T1": "09:00 AM – 11:00 AM",
+            "T2": "11:30 AM – 01:30 PM",
+            "T3": "02:30 PM – 04:30 PM"
+        }
+    }
+}
+
+with open("d:/Exam/data.json", "w", encoding="utf-8") as f:
+    json.dump(data_bundle, f, indent=2)
+
+print("data.json written successfully! Total courses:", len(courses))
